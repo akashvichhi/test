@@ -16,9 +16,10 @@ function App() {
 
   const moveCard = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      const newCards = [...cards];
+      let newCards = [...cards];
       const [removed] = newCards.splice(dragIndex, 1);
       newCards.splice(hoverIndex, 0, removed);
+      newCards = newCards.map((card, index) => ({ ...card, position: index }));
       setCards([...newCards]);
       updatedCards = [...newCards];
     },
