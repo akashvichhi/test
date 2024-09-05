@@ -4,7 +4,18 @@ import flowbite from "flowbite-react/tailwind";
 export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}", flowbite.content()],
   theme: {
-    extend: {},
+    extend: {
+      container: {
+        center: true,
+        padding: "1rem",
+      },
+      screens: {
+        sm: "576px",
+        md: "768px",
+        lg: "992px",
+        xl: "1200px",
+      },
+    },
   },
   plugins: [flowbite.plugin()],
 };

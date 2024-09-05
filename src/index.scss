@@ -18,3 +18,26 @@ svg,
 img {
   @apply max-w-full max-h-full object-cover;
 }
+
+@layer utilities {
+  @screen sm {
+    .container {
+      max-width: 540px;
+    }
+  }
+  @screen md {
+    .container {
+      max-width: 720px;
+    }
+  }
+  @screen lg {
+    .container {
+      max-width: 960px;
+    }
+  }
+  @screen xl {
+    .container {
+      max-width: 1170px;
+    }
+  }
+}
