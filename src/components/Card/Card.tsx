@@ -94,37 +94,45 @@ const Card = ({ card, index, moveCard }: CardProps) => {
   const [{ isDragging }, drag] = useDrag({
     type: "card",
     item: () => {
-      return { index };
+      return { id: card.id, index };
     },
     // eslint-disable-next-line
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
   });
-  const opacity = isDragging ? 0.5 : 1;
+
   drag(drop(ref));
 
   return (
     <div
       ref={ref}
       className="rounded-lg border border-gray-200 bg-white shadow-md cursor-pointer"
-      style={{ opacity }}
+      style={{
+        border: isDragging ? "dashed 2px #000" : "none",
+      }}
       data-handler-id={handlerId}
       onClick={onOpenModal}
     >
-      <figure className="flex items-center justify-center w-full h-[240px] relative">
-        <img
-          src={card.image}
-          alt={card.type}
-          loading="lazy"
-          className="w-full h-full relative rounded-t-lg z-[1]"
-        />
-        <div className="flex items-center justify-center absolute inset-0 z-[0]">
-          <Spinner />
-        </div>
-      </figure>
-      <p className="font-medium px-3 py-2 text-lg">{card.title}</p>
-      <ImageModal card={card} show={showModal} onClose={onCloseModal} />
+      <div
+        style={{
+          opacity: isDragging ? 0 : 1,
+        }}
+      >
+        <figure className="flex items-center justify-center w-full h-[240px] relative">
+          <img
+            src={card.image}
+            alt={card.type}
+            loading="lazy"
+            className="w-full h-full relative rounded-t-lg z-[1]"
+          />
+          <div className="flex items-center justify-center absolute inset-0 z-[0]">
+            <Spinner />
+          </div>
+        </figure>
+        <p className="font-medium px-3 py-2 text-lg">{card.title}</p>
+        <ImageModal card={card} show={showModal} onClose={onCloseModal} />
+      </div>
     </div>
   );
 };

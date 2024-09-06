@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Spinner } from "flowbite-react";
+import update from "immutability-helper";
 import { useCallback, useEffect, useState } from "react";
 import Card from "./components/Card";
 import ICard from "./types/Card";
@@ -14,17 +15,17 @@ function App() {
   const [lastSavedDate, setLastSavedDate] = useState<Date | null>(null);
   const [lastSaved, setLastSaved] = useState<string>("");
 
-  const moveCard = useCallback(
-    (dragIndex: number, hoverIndex: number) => {
-      let newCards = [...cards];
-      const [removed] = newCards.splice(dragIndex, 1);
-      newCards.splice(hoverIndex, 0, removed);
-      newCards = newCards.map((card, index) => ({ ...card, position: index }));
-      setCards([...newCards]);
-      updatedCards = [...newCards];
-    },
-    [cards]
-  );
+  const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
+    setCards((prevCards: ICard[]) => {
+      updatedCards = update(prevCards, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevCards[dragIndex] as ICard],
+        ],
+      });
+      return updatedCards;
+    });
+  }, []);
 
   const getData = useCallback(() => {
     setIsLoading(true);
@@ -105,7 +106,7 @@ function App() {
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {cards.map((d: ICard, index) => (
-          <Card key={d.position} index={index} card={d} moveCard={moveCard} />
+          <Card key={d.id} index={index} card={d} moveCard={moveCard} />
         ))}
       </div>
     </div>
