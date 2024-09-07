@@ -98,12 +98,14 @@ function App() {
   return (
     <div className="container mt-4">
       {isLoading && <div className="text-center">Loading data...</div>}
-      {lastSaved ? <div className="mb-2">Last saved: {lastSaved}</div> : null}
-      {isSaving && (
-        <div className="mb-2">
-          Saving <Spinner size="sm" />
-        </div>
-      )}
+      <div className="flex items-center gap-4">
+        {lastSaved ? <div className="mb-2">Last saved: {lastSaved}</div> : null}
+        {isSaving && (
+          <div className="mb-2">
+            Saving <Spinner size="sm" />
+          </div>
+        )}
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {cards.map((d: ICard, index) => (
           <Card key={d.id} index={index} card={d} moveCard={moveCard} />

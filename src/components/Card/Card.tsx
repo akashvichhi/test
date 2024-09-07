@@ -1,4 +1,4 @@
-import { Identifier, XYCoord } from "dnd-core";
+import { Identifier } from "dnd-core";
 import { Spinner } from "flowbite-react";
 import { useCallback, useRef, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
@@ -41,7 +41,7 @@ const Card = ({ card, index, moveCard }: CardProps) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item: DragItem, monitor) {
+    hover(item: DragItem) {
       if (!ref.current) {
         return;
       }
@@ -50,33 +50,6 @@ const Card = ({ card, index, moveCard }: CardProps) => {
 
       // Don't replace items with themselves
       if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
-      // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
-
-      // Get pixels to the top
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-
-      // Dragging downwards
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-
-      // Dragging upwards
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
 
@@ -107,7 +80,7 @@ const Card = ({ card, index, moveCard }: CardProps) => {
   return (
     <div
       ref={ref}
-      className="rounded-lg border border-gray-200 bg-white shadow-md cursor-pointer"
+      className="rounded-lg border border-gray-200 bg-white shadow-md cursor-move"
       style={{
         border: isDragging ? "dashed 2px #000" : "none",
       }}
